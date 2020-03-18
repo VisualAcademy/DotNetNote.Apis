@@ -59,7 +59,6 @@ namespace ApiHelloWorld.Controllers
             }
             return CreatedAtAction("Get", new { id = value.Id }, value); // 201
         }
-
     }
 
     // 모델 유효성 검사
@@ -77,7 +76,8 @@ namespace ApiHelloWorld.Controllers
     //    public string Text { get; set; }
     //}
 
-    [Route("[controller]/[action]")]
+    // 아래 코드는 참고용으로 테스트
+    //[Route("[controller]")]
     public class ApiHelloWorldDemoController : Controller
     {
         public IActionResult Index()
@@ -118,33 +118,33 @@ namespace ApiHelloWorld.Controllers
         }
     }
 
-    [Route("[controller]/[action]")]
+    //[Route("[controller]/[action]")]
     public class ApiCorsDemoController : Controller
     {
         public IActionResult Index()
         {
             string html = @"
-<html>
-<head>
-    <title>CORS</title>
-</head>
-<body>
-    <h1>외부에 있는 Web API 호출</h1>
-    <div id='print'></div>
-    <script src='https://code.jquery.com/jquery-1.12.4.min.js'></script>
-    <script>
-        // CORS 설정 필요
-        //var API_URI = '/api/values';
-        var API_URI = 'http://dotnetnote.azurewebsites.net/api/values'; 
-        $(function() {
-            $.getJSON(API_URI, function(data) {
-                $('#print').html(data);
+    <html>
+    <head>
+        <title>CORS</title>
+    </head>
+    <body>
+        <h1>외부에 있는 Web API 호출</h1>
+        <div id='print'></div>
+        <script src='https://code.jquery.com/jquery-1.12.4.min.js'></script>
+        <script>
+            // CORS 설정 필요
+            //var API_URI = '/api/values';
+            var API_URI = 'http://dotnetnote.azurewebsites.net/api/values'; 
+            $(function() {
+                $.getJSON(API_URI, function(data) {
+                    $('#print').html(data);
+                });
             });
-        });
-    </script>
-</body>
-</html>
-";
+        </script>
+    </body>
+    </html>
+    ";
 
             return new ContentResult()
             {

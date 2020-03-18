@@ -12,6 +12,7 @@ using DotNetNote.Apis.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 namespace DotNetNote.Apis
 {
@@ -34,6 +35,34 @@ namespace DotNetNote.Apis
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            });
+
+            #region CORS
+            // CORS 사용 등록
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAnyOrigin",
+                    builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+            });
+            services.AddCors(o => o.AddPolicy("AllowAllPolicy", options =>
+            {
+                options.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+            }));
+            services.AddCors(o => o.AddPolicy("AllowSpecific", options =>
+                    options.WithOrigins("https://localhost:44371")
+                           .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE")
+                           .WithHeaders("accept", "content-type", "origin", "X-TotalRecordCount")));
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,13 +79,30 @@ namespace DotNetNote.Apis
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            // CORS 사용 허용
+            app.UseCors("AllowAnyOrigin");
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
 
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+
+
 
             app.UseEndpoints(endpoints =>
             {
