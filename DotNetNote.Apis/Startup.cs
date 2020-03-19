@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using DotNetNote.Apis.Controllers;
 
 namespace DotNetNote.Apis
 {
@@ -63,6 +64,11 @@ namespace DotNetNote.Apis
                            .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE")
                            .WithHeaders("accept", "content-type", "origin", "X-TotalRecordCount")));
             #endregion
+
+            // 포인트 관리
+            //services.AddTransient<IPointRepository, PointRepository>(); // DB 사용
+            services.AddTransient<IPointRepository, PointRepositoryInMemory>(); // 인-메모리 사용
+            services.AddTransient<IPointLogRepository, PointLogRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
