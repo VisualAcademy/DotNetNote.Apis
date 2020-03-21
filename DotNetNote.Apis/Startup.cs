@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using DotNetNote.Apis.Controllers;
+using DotNetNote.Models.Exams;
 
 namespace DotNetNote.Apis
 {
@@ -69,6 +70,19 @@ namespace DotNetNote.Apis
             //services.AddTransient<IPointRepository, PointRepository>(); // DB 사용
             services.AddTransient<IPointRepository, PointRepositoryInMemory>(); // 인-메모리 사용
             services.AddTransient<IPointLogRepository, PointLogRepository>();
+
+            //[DI] 의존성 주입(Dependency Injection)
+            DependencyInjectionContainer(services);
+        }
+
+        /// <summary>
+        /// 의존성 주입 관련 코드만 따로 모아서 관리
+        /// - 리포지토리 등록
+        /// </summary>
+        private void DependencyInjectionContainer(IServiceCollection services)
+        {
+            // Exams: Questions, ... 
+            services.AddTransient<IQuestionRepository, QuestionRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

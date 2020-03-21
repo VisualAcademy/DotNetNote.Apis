@@ -60,9 +60,14 @@
     <Folder Include="dbo\Tables" />
     <Folder Include="dbo\Tables\Fives" />
     <Folder Include="dbo\Tables\Points" />
+    <Folder Include="dbo\Tables\Exam" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Fives\Fives.sql" />
     <Build Include="dbo\Tables\Points\Points_PointLogs.sql" />
+    <Build Include="dbo\Tables\Exam\Questions.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DotNetNote.Database.publish.xml" />
   </ItemGroup>
 </Project>
