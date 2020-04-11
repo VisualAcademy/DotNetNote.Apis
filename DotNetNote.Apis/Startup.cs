@@ -45,7 +45,8 @@ namespace DotNetNote.Apis
             });
 
             #region CORS
-            // CORS 사용 등록
+            //[CORS][1] CORS 사용 등록
+            //[CORS][1][1] 기본: 모두 허용
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAnyOrigin",
@@ -54,12 +55,14 @@ namespace DotNetNote.Apis
                     .AllowAnyMethod()
                     .AllowAnyHeader());
             });
+            //[CORS][1][2] 참고: 모두 허용
             services.AddCors(o => o.AddPolicy("AllowAllPolicy", options =>
             {
                 options.AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader();
             }));
+            //[CORS][1][3] 참고: 특정 도메인만 허용
             services.AddCors(o => o.AddPolicy("AllowSpecific", options =>
                     options.WithOrigins("https://localhost:44371")
                            .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE")
