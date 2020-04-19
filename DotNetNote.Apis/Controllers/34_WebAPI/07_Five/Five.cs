@@ -37,7 +37,7 @@ namespace DotNetNote.Models
     }
 
     /// <summary>
-    /// 리파지터리 클래스
+    /// 리포지토리 클래스
     /// </summary>
     public class FiveRepository : IFiveRepository
     {
@@ -289,9 +289,9 @@ namespace DotNetNote.Models
         {
             try
             {
-                // 페이지 번호는 1, 2, 3 사용, 리파지터리에서는 0, 1, 2 사용
-                pageNumber = (pageNumber > 0) ? pageNumber - 1 : 0;
-                var fives = _repository.GetAllWithPaging(pageNumber, pageSize);
+                // 페이지 번호는 1, 2, 3 사용, 리포지토리에서는 0, 1, 2 사용
+                int pageIndex = (pageNumber > 0) ? pageNumber - 1 : 0;
+                var fives = _repository.GetAllWithPaging(pageIndex, pageSize);
                 if (fives == null)
                 {
                     return NotFound($"아무런 데이터가 없습니다.");
@@ -300,6 +300,7 @@ namespace DotNetNote.Models
                 // 응답 헤더에 총 레코드 수를 담아서 출력
                 Response.Headers.Add(
                     "X-TotalRecordCount", _repository.GetRecordCount().ToString());
+                Response.Headers.Add("Access-Control-Expose-Headers", "X-TotalRecordCount");
 
                 return Ok(fives); // 200 
             }
