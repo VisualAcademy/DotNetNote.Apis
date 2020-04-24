@@ -23,7 +23,7 @@ namespace DotNetNoteCom.Controllers
         // files 매개변수 이름은 <input type="file" name="files" /> 
         public async Task<IActionResult> Post(ICollection<IFormFile> files)
         {
-            // 파일을 업로드할 폴더
+            // 파일을 업로드할 폴더: wwwroot\\files
             var uploadFolder = Path.Combine(_environment.WebRootPath, "files");
 
             foreach (var file in files)
